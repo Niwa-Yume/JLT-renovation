@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
-import { Phone, Mail, MapPin, Send, Clock } from "lucide-react";
+import { Phone, Mail, MapPin, Send, Clock, MessageCircle } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -12,6 +12,7 @@ const ContactSection = () => {
     name: "",
     email: "",
     phone: "",
+    projectType: "",
     message: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -20,19 +21,18 @@ const ContactSection = () => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission
     await new Promise(resolve => setTimeout(resolve, 1000));
     
     toast({
-      title: "Message envoyé !",
-      description: "Nous vous recontacterons dans les plus brefs délais.",
+      title: "Demande envoyée !",
+      description: "Nous vous recontacterons dans les 24h.",
     });
     
-    setFormData({ name: "", email: "", phone: "", message: "" });
+    setFormData({ name: "", email: "", phone: "", projectType: "", message: "" });
     setIsSubmitting(false);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData(prev => ({
       ...prev,
       [e.target.name]: e.target.value
@@ -40,8 +40,11 @@ const ContactSection = () => {
   };
 
   return (
-    <section id="contact" className="py-24 bg-background">
-      <div className="container">
+    <section id="contact" className="py-24 bg-secondary/30 relative overflow-hidden">
+      {/* Decorative elements */}
+      <div className="absolute top-0 left-0 w-1/2 h-full bg-gradient-to-r from-accent/5 to-transparent" />
+      
+      <div className="container relative">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -49,70 +52,82 @@ const ContactSection = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <span className="inline-block px-4 py-2 rounded-full bg-energy/10 text-energy text-sm font-medium mb-4">
-            Contact
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-energy/10 text-energy text-sm font-medium mb-4">
+            <MessageCircle className="w-4 h-4" />
+            Contactez-nous
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-foreground mb-4">
-            Demandez votre devis gratuit
+            Votre devis <span className="text-accent">gratuit</span> en 24h
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Contactez-nous pour discuter de votre projet. Nous vous répondons sous 24h.
+            Décrivez votre projet et recevez une estimation détaillée sans engagement.
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-5 gap-12">
+        <div className="grid lg:grid-cols-5 gap-8">
           {/* Contact Info */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="lg:col-span-2 space-y-8"
+            className="lg:col-span-2 space-y-6"
           >
-            <div className="bg-gradient-hero rounded-2xl p-8 text-white">
-              <h3 className="text-2xl font-display font-semibold mb-6">
-                Nos coordonnées
-              </h3>
-              
-              <div className="space-y-6">
-                <a href="tel:+41000000000" className="flex items-start gap-4 group">
-                  <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0 group-hover:bg-white/20 transition-colors">
-                    <Phone className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="font-medium mb-1">Téléphone</div>
-                    <div className="text-white/70 group-hover:text-energy transition-colors">+41 00 000 00 00</div>
-                  </div>
-                </a>
-
-                <a href="mailto:contact@jlt-renovation.ch" className="flex items-start gap-4 group">
-                  <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0 group-hover:bg-white/20 transition-colors">
-                    <Mail className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="font-medium mb-1">Email</div>
-                    <div className="text-white/70 group-hover:text-energy transition-colors">contact@jlt-renovation.ch</div>
-                  </div>
-                </a>
-
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0">
-                    <MapPin className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="font-medium mb-1">Adresse</div>
-                    <div className="text-white/70">Suisse Romande</div>
-                  </div>
+            {/* Quick contact cards */}
+            <a 
+              href="tel:+41000000000" 
+              className="block bg-gradient-hero rounded-2xl p-6 text-white hover:scale-[1.02] transition-transform"
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 rounded-xl bg-white/10 flex items-center justify-center">
+                  <Phone className="w-6 h-6" />
                 </div>
+                <div>
+                  <div className="text-sm opacity-70 mb-1">Appelez-nous</div>
+                  <div className="text-xl font-semibold">+41 00 000 00 00</div>
+                </div>
+              </div>
+            </a>
 
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0">
-                    <Clock className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="font-medium mb-1">Horaires</div>
-                    <div className="text-white/70">Lun - Ven: 8h - 18h</div>
-                  </div>
+            <a 
+              href="mailto:contact@jlt-renovation.ch" 
+              className="block bg-card rounded-2xl p-6 border border-border/50 shadow-soft hover:shadow-medium hover:scale-[1.02] transition-all"
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 rounded-xl bg-accent/10 flex items-center justify-center">
+                  <Mail className="w-6 h-6 text-accent" />
+                </div>
+                <div>
+                  <div className="text-sm text-muted-foreground mb-1">Email</div>
+                  <div className="text-lg font-semibold text-foreground">contact@jlt-renovation.ch</div>
+                </div>
+              </div>
+            </a>
+
+            <div className="bg-card rounded-2xl p-6 border border-border/50 shadow-soft">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-14 h-14 rounded-xl bg-energy/10 flex items-center justify-center">
+                  <MapPin className="w-6 h-6 text-energy" />
+                </div>
+                <div>
+                  <div className="text-sm text-muted-foreground mb-1">Zone d'intervention</div>
+                  <div className="text-lg font-semibold text-foreground">Suisse Romande</div>
+                </div>
+              </div>
+              <p className="text-muted-foreground text-sm">
+                Genève, Lausanne, Vaud, Fribourg et environs
+              </p>
+            </div>
+
+            <div className="bg-card rounded-2xl p-6 border border-border/50 shadow-soft">
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <Clock className="w-6 h-6 text-primary" />
+                </div>
+                <div>
+                  <div className="text-sm text-muted-foreground mb-1">Horaires</div>
+                  <div className="font-semibold text-foreground">Lun - Ven : 7h30 - 18h</div>
+                  <div className="text-sm text-muted-foreground">Sam : Sur rendez-vous</div>
                 </div>
               </div>
             </div>
@@ -126,7 +141,7 @@ const ContactSection = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="lg:col-span-3"
           >
-            <form onSubmit={handleSubmit} className="bg-card rounded-2xl p-8 shadow-soft border border-border/50">
+            <form onSubmit={handleSubmit} className="bg-card rounded-2xl p-8 shadow-medium border border-border/50">
               <div className="grid sm:grid-cols-2 gap-6 mb-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
@@ -159,20 +174,41 @@ const ContactSection = () => {
                 </div>
               </div>
 
-              <div className="mb-6">
-                <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-                  Email *
-                </label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="votre@email.ch"
-                  required
-                  className="h-12"
-                />
+              <div className="grid sm:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
+                    Email *
+                  </label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="votre@email.ch"
+                    required
+                    className="h-12"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="projectType" className="block text-sm font-medium text-foreground mb-2">
+                    Type de projet
+                  </label>
+                  <select
+                    id="projectType"
+                    name="projectType"
+                    value={formData.projectType}
+                    onChange={handleChange}
+                    className="w-full h-12 px-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                  >
+                    <option value="">Sélectionnez...</option>
+                    <option value="interieur">Peinture intérieure</option>
+                    <option value="exterieur">Peinture extérieure</option>
+                    <option value="renovation">Rénovation complète</option>
+                    <option value="decoration">Décoration</option>
+                    <option value="autre">Autre</option>
+                  </select>
+                </div>
               </div>
 
               <div className="mb-8">
@@ -184,7 +220,7 @@ const ContactSection = () => {
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
-                  placeholder="Décrivez votre projet de rénovation ou de peinture..."
+                  placeholder="Surface à peindre, état actuel, couleurs souhaitées, délais..."
                   required
                   rows={5}
                   className="resize-none"
@@ -202,14 +238,14 @@ const ContactSection = () => {
                   "Envoi en cours..."
                 ) : (
                   <>
-                    Envoyer ma demande
+                    Recevoir mon devis gratuit
                     <Send className="w-5 h-5" />
                   </>
                 )}
               </Button>
 
               <p className="text-sm text-muted-foreground mt-4 text-center">
-                Nous vous répondons sous 24h. Devis gratuit et sans engagement.
+                ✓ Réponse garantie sous 24h &nbsp; ✓ Devis gratuit et sans engagement
               </p>
             </form>
           </motion.div>
