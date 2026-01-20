@@ -75,7 +75,7 @@ const ContactSection = () => {
           >
             {/* Quick contact cards */}
             <a 
-              href="tel:+41000000000" 
+              href="tel:+41797206788"
               className="block bg-gradient-hero rounded-2xl p-6 text-white hover:scale-[1.02] transition-transform"
             >
               <div className="flex items-center gap-4">
@@ -84,7 +84,7 @@ const ContactSection = () => {
                 </div>
                 <div>
                   <div className="text-sm opacity-70 mb-1">Appelez-nous</div>
-                  <div className="text-xl font-semibold">+41 00 000 00 00</div>
+                  <div className="text-xl font-semibold">079 720 67 88</div>
                 </div>
               </div>
             </a>
@@ -167,7 +167,7 @@ const ContactSection = () => {
                     type="tel"
                     value={formData.phone}
                     onChange={handleChange}
-                    placeholder="+41 00 000 00 00"
+                    placeholder="079 720 67 88"
                     required
                     className="h-12"
                   />

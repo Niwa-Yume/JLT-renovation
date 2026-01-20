@@ -24,9 +24,9 @@ const Header = () => {
       {/* Top bar with contact info */}
       <div className="bg-primary text-primary-foreground py-2">
         <div className="container flex justify-center md:justify-end gap-6 text-sm">
-          <a href="tel:+41000000000" className="flex items-center gap-2 hover:text-energy transition-colors">
+          <a href="tel:+41797206788" className="flex items-center gap-2 hover:text-energy transition-colors">
             <Phone className="w-4 h-4" />
-            <span className="hidden sm:inline">+41 00 000 00 00</span>
+            <span className="hidden sm:inline">079 720 67 88</span>
           </a>
           <a href="mailto:contact@jlt-renovation.ch" className="flex items-center gap-2 hover:text-energy transition-colors">
             <Mail className="w-4 h-4" />
@@ -42,7 +42,7 @@ const Header = () => {
             <img 
               src={logoJLT} 
               alt="JLT Rénovation" 
-              className="h-14 w-auto object-contain"
+              className="h-14 w-auto object-contain rounded-full"
             />
           </a>
 

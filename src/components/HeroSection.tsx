@@ -91,7 +91,7 @@ const HeroSection = () => {
                 </a>
               </Button>
               <Button variant="heroOutline" size="xl" asChild>
-                <a href="tel:+41000000000">
+                <a href="tel:+41797206788">
                   <Phone className="w-5 h-5" />
                   Appel direct
                 </a>
@@ -106,21 +106,21 @@ const HeroSection = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="hidden lg:grid grid-cols-2 gap-4"
           >
-            <div className="glass-effect rounded-2xl p-6 text-white">
+            <div className="glass-effect-dark rounded-2xl p-6 text-white">
               <div className="text-4xl font-display font-bold text-energy mb-2">10+</div>
-              <div className="text-white/70">Années d'expérience</div>
+              <div className="text-white/90">Années d'expérience</div>
             </div>
-            <div className="glass-effect rounded-2xl p-6 text-white mt-8">
+            <div className="glass-effect-dark rounded-2xl p-6 text-white mt-8">
               <div className="text-4xl font-display font-bold text-accent mb-2">500+</div>
-              <div className="text-white/70">Chantiers réalisés</div>
+              <div className="text-white/90">Chantiers réalisés</div>
             </div>
-            <div className="glass-effect rounded-2xl p-6 text-white">
+            <div className="glass-effect-dark rounded-2xl p-6 text-white">
               <div className="text-4xl font-display font-bold text-white mb-2">100%</div>
-              <div className="text-white/70">Clients satisfaits</div>
+              <div className="text-white/90">Clients satisfaits</div>
             </div>
-            <div className="glass-effect rounded-2xl p-6 text-white mt-8">
+            <div className="glass-effect-dark rounded-2xl p-6 text-white mt-8">
               <div className="text-4xl font-display font-bold text-energy mb-2">24h</div>
-              <div className="text-white/70">Délai de réponse</div>
+              <div className="text-white/90">Délai de réponse</div>
             </div>
           </motion.div>
         </div>

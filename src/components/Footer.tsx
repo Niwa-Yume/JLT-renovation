@@ -36,9 +36,9 @@ const Footer = () => {
           <div>
             <h4 className="font-display font-semibold text-lg mb-6">Contact</h4>
             <div className="space-y-4">
-              <a href="tel:+41000000000" className="flex items-center gap-3 text-white/70 hover:text-energy transition-colors">
+              <a href="tel:+41797206788" className="flex items-center gap-3 text-white/70 hover:text-energy transition-colors">
                 <Phone className="w-4 h-4" />
-                +41 00 000 00 00
+                079 720 67 88
               </a>
               <a href="mailto:contact@jlt-renovation.ch" className="flex items-center gap-3 text-white/70 hover:text-energy transition-colors">
                 <Mail className="w-4 h-4" />
