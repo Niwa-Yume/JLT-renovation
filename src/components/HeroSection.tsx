@@ -107,7 +107,7 @@ const HeroSection = () => {
             className="hidden lg:grid grid-cols-2 gap-4"
           >
             <div className="glass-effect-dark rounded-2xl p-6 text-white">
-              <div className="text-4xl font-display font-bold text-energy mb-2">10+</div>
+              <div className="text-4xl font-display font-bold text-energy mb-2">6+</div>
               <div className="text-white/90">Années d'expérience</div>
             </div>
             <div className="glass-effect-dark rounded-2xl p-6 text-white mt-8">
@@ -134,7 +134,7 @@ const HeroSection = () => {
         >
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center">
-              <span className="text-xl font-bold text-energy">10+</span>
+              <span className="text-xl font-bold text-energy">6+</span>
             </div>
             <span className="text-sm text-white/70">Années<br/>d'expérience</span>
           </div>

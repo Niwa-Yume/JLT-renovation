@@ -36,7 +36,7 @@ const AboutSection = () => {
               L'expertise d'un <span className="text-primary">artisan local</span>
             </h2>
             <p className="text-muted-foreground text-lg mb-8 leading-relaxed">
-              Depuis plus de 10 ans, JLT Rénovation accompagne les particuliers et professionnels 
+              Depuis plus de 6 ans, JLT Rénovation accompagne les particuliers et professionnels
               en Suisse romande. Notre passion pour le métier de peintre se reflète dans chaque 
               coup de pinceau.
             </p>
@@ -125,8 +125,7 @@ const AboutSection = () => {
                   <span className="text-3xl">🇨🇭</span>
                 </div>
                 <div>
-                  <div className="text-lg font-bold text-foreground">Suisse Romande</div>
-                  <div className="text-sm text-muted-foreground">Genève • Lausanne • Vaud</div>
+                  <div className="text-lg font-bold text-foreground">Genève • Lausanne</div>
                 </div>
               </div>
             </motion.div>

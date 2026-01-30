@@ -42,7 +42,7 @@ const Header = () => {
             <img 
               src={logoJLT} 
               alt="JLT Rénovation" 
-              className="h-14 w-auto object-contain rounded-full"
+              className="h-14 md:h-20 w-auto object-contain rounded-full transition-all duration-300"
             />
           </a>
 

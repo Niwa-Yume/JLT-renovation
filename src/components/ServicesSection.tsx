@@ -52,7 +52,7 @@ const ServicesSection = () => {
             Nos Prestations
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-foreground mb-4">
-            Experts en peinture <span className="text-accent">depuis 2014</span>
+            Experts en peinture <span className="text-accent">depuis 2019</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Du conseil couleur à la réalisation finale, nous prenons en charge l'intégralité de vos travaux de peinture.

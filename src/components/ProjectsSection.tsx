@@ -18,7 +18,7 @@ const projects = [
   },
   {
     image: project3,
-    title: "Salle de bain luxe",
+    title: "Salle de bain",
     category: "Rénovation complète",
     location: "Montreux"
   }

@@ -111,12 +111,11 @@ const ContactSection = () => {
                 </div>
                 <div>
                   <div className="text-sm text-muted-foreground mb-1">Zone d'intervention</div>
-                  <div className="text-lg font-semibold text-foreground">Suisse Romande</div>
+                  <div className="text-lg font-semibold text-foreground">
+                      Genève, Lausanne, et environs
+                  </div>
                 </div>
               </div>
-              <p className="text-muted-foreground text-sm">
-                Genève, Lausanne, Vaud, Fribourg et environs
-              </p>
             </div>
 
             <div className="bg-card rounded-2xl p-6 border border-border/50 shadow-soft">

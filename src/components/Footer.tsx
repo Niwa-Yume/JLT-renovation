@@ -44,10 +44,6 @@ const Footer = () => {
                 <Mail className="w-4 h-4" />
                 contact@jlt-renovation.ch
               </a>
-              <div className="flex items-center gap-3 text-white/70">
-                <MapPin className="w-4 h-4" />
-                Suisse Romande
-              </div>
             </div>
           </div>
         </div>
