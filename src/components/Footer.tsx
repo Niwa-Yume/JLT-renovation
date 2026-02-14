@@ -1,5 +1,5 @@
 import logoJLT from "@/assets/logo-jlt.jpeg";
-import { Phone, Mail, MapPin } from "lucide-react";
+import {Phone, Mail, MapPin, Home} from "lucide-react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -44,7 +44,8 @@ const Footer = () => {
                 <Mail className="w-4 h-4" />
                 contact@jlt-renovation.ch
               </a>
-                <a  className="flex items-center gap-3 text-white/70 hover:text-energy transition-colors">
+                <a className="flex items-center gap-3 text-white/70 hover:text-energy transition-colors">
+                    <Home className="w-4 h-4"/>
                     Versoix
                 </a>
             </div>
