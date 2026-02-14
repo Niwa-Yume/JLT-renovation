@@ -3,7 +3,7 @@ import { CheckCircle, Award, Shield, Clock } from "lucide-react";
 import logoJLT from "@/assets/logo-jlt.jpeg";
 
 const features = [
-  { icon: Award, text: "Artisans qualifiés et certifiés" },
+  { icon: Award, text: "Artisans qualifiés et diplômé" },
   { icon: Shield, text: "Garantie décennale incluse" },
   { icon: Clock, text: "Respect strict des délais" },
   { icon: CheckCircle, text: "Devis détaillé gratuit" },

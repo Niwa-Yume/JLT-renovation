@@ -17,7 +17,7 @@ const Footer = () => {
             />
             <p className="text-white/70 leading-relaxed">
               JLT Rénovation, votre partenaire de confiance pour tous vos travaux 
-              de peinture et rénovation en Suisse.
+              de peinture et rénovation sur Versoix et Genève.
             </p>
           </div>
 
