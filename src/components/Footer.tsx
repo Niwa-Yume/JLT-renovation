@@ -44,6 +44,9 @@ const Footer = () => {
                 <Mail className="w-4 h-4" />
                 contact@jlt-renovation.ch
               </a>
+                <a  className="flex items-center gap-3 text-white/70 hover:text-energy transition-colors">
+                    Versoix
+                </a>
             </div>
           </div>
         </div>
