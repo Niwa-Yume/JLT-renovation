@@ -23,7 +23,7 @@ const ContactSection = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY?.trim();
+    const accessKey = "848c7522-843d-4819-9ec8-828dcd7ca02d";
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     const name = formData.name.trim();
