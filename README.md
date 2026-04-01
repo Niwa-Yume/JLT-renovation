@@ -4,6 +4,21 @@
 
 **URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
 
+## Configuration du formulaire (Web3Forms)
+
+Le formulaire de contact utilise Web3Forms.
+
+1. Créez un fichier `.env.local` à la racine du projet.
+2. Ajoutez votre clé d'accès Web3Forms :
+
+```sh
+VITE_WEB3FORMS_ACCESS_KEY=your_access_key_here
+```
+
+3. Redémarrez le serveur de développement (`npm run dev`).
+
+> La variable doit commencer par `VITE_` pour être accessible côté client dans Vite.
+
 ## How can I edit this code?
 
 There are several ways of editing your application.

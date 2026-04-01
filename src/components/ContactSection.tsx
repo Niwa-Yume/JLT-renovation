@@ -6,6 +6,9 @@ import { Phone, Mail, MapPin, Send, Clock, MessageCircle } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
+const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
+const MIN_MESSAGE_LENGTH = 20;
+
 const ContactSection = () => {
   const { toast } = useToast();
   const [formData, setFormData] = useState({
@@ -19,17 +22,87 @@ const ContactSection = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY?.trim();
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    const name = formData.name.trim();
+    const email = formData.email.trim();
+    const phone = formData.phone.trim();
+    const projectType = formData.projectType.trim();
+    const message = formData.message.trim();
+
+    if (!accessKey) {
+      toast({
+        title: "Configuration manquante",
+        description: "La clé Web3Forms est absente. Ajoutez VITE_WEB3FORMS_ACCESS_KEY dans votre .env.local.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!emailPattern.test(email)) {
+      toast({
+        title: "Email invalide",
+        description: "Merci de saisir une adresse email valide.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (message.length < MIN_MESSAGE_LENGTH) {
+      toast({
+        title: "Message trop court",
+        description: `Merci d'ajouter au moins ${MIN_MESSAGE_LENGTH} caractères pour décrire votre projet.`,
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
-    
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    toast({
-      title: "Demande envoyée !",
-      description: "Nous vous recontacterons dans les 24h.",
-    });
-    
-    setFormData({ name: "", email: "", phone: "", projectType: "", message: "" });
-    setIsSubmitting(false);
+
+    try {
+      const response = await fetch(WEB3FORMS_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: accessKey,
+          subject: "Nouveau devis depuis le site JLT Rénovation",
+          from_name: "Site JLT Rénovation",
+          name,
+          email,
+          phone,
+          message: `Type de projet: ${projectType || "Non précisé"}\n\n${message}`,
+          botcheck: "",
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || "L'envoi du formulaire a échoué.");
+      }
+
+      toast({
+        title: "Demande envoyée !",
+        description: "Nous vous recontacterons dans les 24h.",
+      });
+
+      setFormData({ name: "", email: "", phone: "", projectType: "", message: "" });
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Impossible d'envoyer votre demande. Merci de réessayer.";
+
+      toast({
+        title: "Envoi impossible",
+        description: errorMessage,
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
