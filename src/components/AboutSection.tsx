@@ -4,7 +4,7 @@ import logoJLT from "@/assets/logo-jlt.jpeg";
 
 const features = [
   { icon: Award, text: "Artisans qualifiés et diplômé" },
-  { icon: Shield, text: "Garantie décennale incluse" },
+  { icon: Shield, text: "Garantie 5 ans incluse" },
   { icon: Clock, text: "Respect strict des délais" },
   { icon: CheckCircle, text: "Devis détaillé gratuit" },
 ];
@@ -16,6 +16,66 @@ const whyUs = [
   "Service après-vente réactif",
   "Conseils personnalisés en décoration",
   "Tarifs transparents sans surprise"
+];
+
+type GoogleReview = {
+  author: string;
+  rating: number;
+  text: string;
+  relativeTime: string;
+};
+
+const googleBusinessProfile = {
+  name: "JLT Renovation L.Tshiama",
+  address: "Rte des Fayards 272, 1290 Versoix, Suisse",
+  rating: "5,0",
+  totalReviews: "6 avis",
+  filters: ["Tout", "chantier2", "travail2"],
+  sortOptions: [
+    "Avis les plus pertinents",
+    "Les plus recents",
+    "Avis les plus favorables",
+    "Avis les moins favorables",
+  ],
+};
+
+const googleReviews: GoogleReview[] = [
+  {
+    author: "Niwa",
+    rating: 5,
+    relativeTime: "il y a 3 semaines - Nouveau",
+    text: "J'ai fait appel a l'entreprise JLT Renovation pour des travaux de peinture et de renovation interieure, et le resultat est impeccable. Ponctuel et de tres bon conseil ! Les finitions sont soignees et le chantier a ete rendu parfaitement propre. C'est rare de trouver un artisan aussi meticuleux a Versoix. Je recommande vivement !",
+  },
+  {
+    author: "benedict Lusakumunu",
+    rating: 5,
+    relativeTime: "il y a un mois",
+    text: "Je recommande vivement cette entreprise ! Le professionnalisme de l'equipe est remarquable, du premier contact jusqu'a la fin des travaux. Le travail realise est de grande qualite, avec des finitions... Plus",
+  },
+  {
+    author: "Bryan Jusic",
+    rating: 5,
+    relativeTime: "il y a un mois",
+    text: "J'ai contacte JLT RENOVATION pour refaire mon appartement haussmannien et j'ai ete surpris du professionnalisme et de la qualite de travail qui a ete effectue. Je recommande !",
+  },
+  {
+    author: "Nassim Bounamcha",
+    rating: 5,
+    relativeTime: "il y a 3 semaines - Nouveau",
+    text: "",
+  },
+  {
+    author: "Carlos Afonso",
+    rating: 5,
+    relativeTime: "il y a un mois",
+    text: "",
+  },
+  {
+    author: "Blessed Lskmn",
+    rating: 5,
+    relativeTime: "il y a un mois",
+    text: "",
+  },
 ];
 
 const AboutSection = () => {
@@ -96,18 +156,48 @@ const AboutSection = () => {
                   className="w-48 h-auto mx-auto mb-8 rounded-2xl shadow-lg bg-white p-4"
                 />
                 <div className="text-white">
-                  <p className="text-lg opacity-90 mb-6">
-                    "Notre engagement : des travaux de qualité, 
-                    dans les délais et au juste prix."
-                  </p>
-                  <div className="flex items-center justify-center gap-1 text-energy">
-                    {[...Array(5)].map((_, i) => (
-                      <svg key={i} className="w-6 h-6 fill-current" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
+                  <p className="text-lg font-semibold">Avis clients Google</p>
+                  <p className="text-base font-semibold mt-2">{googleBusinessProfile.name}</p>
+                  <p className="text-xs opacity-80 mt-1">{googleBusinessProfile.address}</p>
+
+                  <div className="flex items-center gap-2 mt-3 text-sm">
+                    <span className="font-semibold">{googleBusinessProfile.rating}</span>
+                    <span className="opacity-90">{googleBusinessProfile.totalReviews}</span>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    {googleBusinessProfile.filters.map((filter) => (
+                      <span key={filter} className="text-xs rounded-full bg-white/15 px-3 py-1">
+                        {filter}
+                      </span>
                     ))}
                   </div>
-                  <p className="text-sm opacity-70 mt-2">Note moyenne de nos clients</p>
+
+                  <div className="mt-4 mb-3">
+                    <p className="text-xs opacity-80 mb-2">Trier par</p>
+                    <div className="flex flex-wrap gap-2">
+                      {googleBusinessProfile.sortOptions.map((option) => (
+                        <span key={option} className="text-xs rounded-full border border-white/20 px-3 py-1">
+                          {option}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="space-y-4 text-left mt-4 max-h-80 overflow-y-auto pr-1">
+                    {googleReviews.map((review) => (
+                      <div key={`${review.author}-${review.relativeTime}`} className="rounded-xl bg-white/10 p-4">
+                        <div className="flex items-center justify-between mb-2 gap-3">
+                          <p className="font-semibold">{review.author}</p>
+                          <p className="text-xs opacity-80 whitespace-nowrap">{review.relativeTime}</p>
+                        </div>
+                        <p className="text-sm mb-2">{"★".repeat(Math.max(1, Math.min(5, Math.round(review.rating))))}</p>
+                        <p className="text-sm opacity-90 line-clamp-5">
+                          {review.text || "Avis publie sans commentaire."}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
