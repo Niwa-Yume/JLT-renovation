@@ -15,7 +15,7 @@ Le formulaire de contact utilise Web3Forms.
 VITE_WEB3FORMS_ACCESS_KEY=your_access_key_here
 ```
 
-3. Redémarrez le serveur de développement (`npm run dev`).
+3. Utilisez Node.js 23 puis redémarrez le serveur de développement (`npm run dev`).
 
 > La variable doit commencer par `VITE_` pour être accessible côté client dans Vite.
 
@@ -33,7 +33,7 @@ Changes made via Lovable will be committed automatically to this repo.
 
 If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+The project targets Node.js 23 and npm 10+ - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
 Follow these steps:
 
@@ -43,6 +43,9 @@ git clone <YOUR_GIT_URL>
 
 # Step 2: Navigate to the project directory.
 cd <YOUR_PROJECT_NAME>
+
+# Step 2.1: Use the project's Node.js version.
+nvm use
 
 # Step 3: Install the necessary dependencies.
 npm i
