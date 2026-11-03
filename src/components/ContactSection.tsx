@@ -2,12 +2,21 @@ import { motion } from "framer-motion";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
-import { Phone, Mail, MapPin, Send, Clock, MessageCircle } from "lucide-react";
+import { Phone, Mail, MapPin, Send, Clock, ArrowUpRight } from "lucide-react";
+import { reveal } from "@/lib/motion";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
 const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
 const MIN_MESSAGE_LENGTH = 20;
+
+const projectTypes = [
+  { value: "interieur", label: "Peinture intérieure" },
+  { value: "exterieur", label: "Peinture extérieure" },
+  { value: "renovation", label: "Rénovation complète" },
+  { value: "decoration", label: "Décoration" },
+  { value: "autre", label: "Autre" },
+];
 
 const ContactSection = () => {
   const { toast } = useToast();
@@ -112,111 +121,71 @@ const ContactSection = () => {
     }));
   };
 
+  const fieldClass = "h-12 rounded-md bg-background";
+  const labelClass = "mb-2 block text-sm font-medium";
+
   return (
-    <section id="contact" className="py-24 bg-secondary/30 relative overflow-hidden">
-      {/* Decorative elements */}
-      <div className="absolute top-0 left-0 w-1/2 h-full bg-gradient-to-r from-accent/5 to-transparent" />
-      
-      <div className="container relative">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
-        >
-          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-energy/10 text-energy text-sm font-medium mb-4">
-            <MessageCircle className="w-4 h-4" />
-            Contactez-nous
-          </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-foreground mb-4">
+    <section id="contact" className="bg-primary py-24 text-primary-foreground md:py-32">
+      <div className="container">
+        <motion.div {...reveal} className="mb-14 grid gap-6 md:mb-20 lg:grid-cols-12">
+          <span className="eyebrow text-primary-foreground/60 lg:col-span-3 lg:pt-3">04 — Contactez-nous</span>
+          <h2 className="text-4xl font-semibold leading-[1.05] sm:text-5xl lg:col-span-6">
             Votre devis <span className="text-accent">gratuit</span> en 24h
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+          <p className="max-w-sm text-primary-foreground/60 lg:col-span-3 lg:pt-3">
             Décrivez votre projet et recevez une estimation détaillée sans engagement.
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-5 gap-8">
-          {/* Contact Info */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="lg:col-span-2 space-y-6"
-          >
-            {/* Quick contact cards */}
-            <a 
-              href="tel:+41797206788"
-              className="block bg-gradient-hero rounded-2xl p-6 text-white hover:scale-[1.02] transition-transform"
-            >
-              <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-xl bg-white/10 flex items-center justify-center">
-                  <Phone className="w-6 h-6" />
+        <div className="grid gap-12 lg:grid-cols-12">
+          <motion.div {...reveal} className="lg:col-span-4">
+            <div className="divide-y divide-primary-foreground/15 border-y border-primary-foreground/15">
+              <a href="tel:+41797206788" className="group flex items-start gap-4 py-6">
+                <Phone className="mt-1 h-5 w-5 text-accent" strokeWidth={1.75} />
+                <div className="flex-1">
+                  <div className="mb-1 text-sm text-primary-foreground/60">Appelez-nous</div>
+                  <div className="text-2xl font-semibold tracking-tight">079 720 67 88</div>
                 </div>
+                <ArrowUpRight className="h-5 w-5 text-primary-foreground/40 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent" />
+              </a>
+
+              <a href="mailto:contact@jlt-renovation.ch" className="group flex items-start gap-4 py-6">
+                <Mail className="mt-1 h-5 w-5 text-accent" strokeWidth={1.75} />
+                <div className="min-w-0 flex-1">
+                  <div className="mb-1 text-sm text-primary-foreground/60">Email</div>
+                  <div className="break-all text-lg font-medium">contact@jlt-renovation.ch</div>
+                </div>
+                <ArrowUpRight className="h-5 w-5 text-primary-foreground/40 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent" />
+              </a>
+
+              <div className="flex items-start gap-4 py-6">
+                <MapPin className="mt-1 h-5 w-5 text-accent" strokeWidth={1.75} />
                 <div>
-                  <div className="text-sm opacity-70 mb-1">Appelez-nous</div>
-                  <div className="text-xl font-semibold">079 720 67 88</div>
+                  <div className="mb-1 text-sm text-primary-foreground/60">Zone d'intervention</div>
+                  <div className="text-lg font-medium">Genève, Lausanne, et environs</div>
                 </div>
               </div>
-            </a>
 
-            <a 
-              href="mailto:contact@jlt-renovation.ch" 
-              className="block bg-card rounded-2xl p-6 border border-border/50 shadow-soft hover:shadow-medium hover:scale-[1.02] transition-all"
-            >
-              <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-xl bg-accent/10 flex items-center justify-center">
-                  <Mail className="w-6 h-6 text-accent" />
-                </div>
+              <div className="flex items-start gap-4 py-6">
+                <Clock className="mt-1 h-5 w-5 text-accent" strokeWidth={1.75} />
                 <div>
-                  <div className="text-sm text-muted-foreground mb-1">Email</div>
-                  <div className="text-lg font-semibold text-foreground">contact@jlt-renovation.ch</div>
-                </div>
-              </div>
-            </a>
-
-            <div className="bg-card rounded-2xl p-6 border border-border/50 shadow-soft">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-14 h-14 rounded-xl bg-energy/10 flex items-center justify-center">
-                  <MapPin className="w-6 h-6 text-energy" />
-                </div>
-                <div>
-                  <div className="text-sm text-muted-foreground mb-1">Zone d'intervention</div>
-                  <div className="text-lg font-semibold text-foreground">
-                      Genève, Lausanne, et environs
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-card rounded-2xl p-6 border border-border/50 shadow-soft">
-              <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center">
-                  <Clock className="w-6 h-6 text-primary" />
-                </div>
-                <div>
-                  <div className="text-sm text-muted-foreground mb-1">Horaires</div>
-                  <div className="font-semibold text-foreground">Lun - Ven : 7h30 - 18h</div>
-                  <div className="text-sm text-muted-foreground">Sam : Sur rendez-vous</div>
+                  <div className="mb-1 text-sm text-primary-foreground/60">Horaires</div>
+                  <div className="text-lg font-medium">Lun - Ven : 7h30 - 18h</div>
+                  <div className="text-sm text-primary-foreground/60">Sam : Sur rendez-vous</div>
                 </div>
               </div>
             </div>
           </motion.div>
 
-          {/* Contact Form */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="lg:col-span-3"
+            {...reveal}
+            transition={{ ...reveal.transition, delay: 0.1 }}
+            className="lg:col-span-7 lg:col-start-6"
           >
-            <form onSubmit={handleSubmit} className="bg-card rounded-2xl p-8 shadow-medium border border-border/50">
-              <div className="grid sm:grid-cols-2 gap-6 mb-6">
+            <form onSubmit={handleSubmit} className="rounded-lg bg-card p-6 text-card-foreground sm:p-10">
+              <div className="mb-6 grid gap-6 sm:grid-cols-2">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
+                  <label htmlFor="name" className={labelClass}>
                     Nom complet *
                   </label>
                   <Input
@@ -226,11 +195,12 @@ const ContactSection = () => {
                     onChange={handleChange}
                     placeholder="Votre nom"
                     required
-                    className="h-12"
+                    autoComplete="name"
+                    className={fieldClass}
                   />
                 </div>
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
+                  <label htmlFor="phone" className={labelClass}>
                     Téléphone *
                   </label>
                   <Input
@@ -241,50 +211,52 @@ const ContactSection = () => {
                     onChange={handleChange}
                     placeholder="079 720 67 88"
                     required
-                    className="h-12"
+                    autoComplete="tel"
+                    className={fieldClass}
                   />
                 </div>
               </div>
 
-              <div className="grid sm:grid-cols-2 gap-6 mb-6">
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-                    Email *
-                  </label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="votre@email.ch"
-                    required
-                    className="h-12"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="projectType" className="block text-sm font-medium text-foreground mb-2">
-                    Type de projet
-                  </label>
-                  <select
-                    id="projectType"
-                    name="projectType"
-                    value={formData.projectType}
-                    onChange={handleChange}
-                    className="w-full h-12 px-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-                  >
-                    <option value="">Sélectionnez...</option>
-                    <option value="interieur">Peinture intérieure</option>
-                    <option value="exterieur">Peinture extérieure</option>
-                    <option value="renovation">Rénovation complète</option>
-                    <option value="decoration">Décoration</option>
-                    <option value="autre">Autre</option>
-                  </select>
-                </div>
+              <div className="mb-6">
+                <label htmlFor="email" className={labelClass}>
+                  Email *
+                </label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="votre@email.ch"
+                  required
+                  autoComplete="email"
+                  className={fieldClass}
+                />
               </div>
+
+              <fieldset className="mb-6">
+                <legend className={labelClass}>Type de projet</legend>
+                <div className="flex flex-wrap gap-2">
+                  {projectTypes.map((type) => (
+                    <label key={type.value} className="cursor-pointer">
+                      <input
+                        type="radio"
+                        name="projectType"
+                        value={type.value}
+                        checked={formData.projectType === type.value}
+                        onChange={handleChange}
+                        className="peer sr-only"
+                      />
+                      <span className="block rounded-full border border-input px-4 py-2 text-sm transition-all duration-200 hover:border-foreground/40 active:scale-95 peer-checked:border-foreground peer-checked:bg-foreground peer-checked:text-background peer-focus-visible:ring-2 peer-focus-visible:ring-ring peer-focus-visible:ring-offset-2">
+                        {type.label}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
 
               <div className="mb-8">
-                <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
+                <label htmlFor="message" className={labelClass}>
                   Décrivez votre projet *
                 </label>
                 <Textarea
@@ -295,14 +267,19 @@ const ContactSection = () => {
                   placeholder="Surface à peindre, état actuel, couleurs souhaitées, délais..."
                   required
                   rows={5}
-                  className="resize-none"
+                  className="resize-none rounded-md bg-background"
                 />
+                <p className="mt-2 text-right font-mono text-xs text-muted-foreground" aria-live="polite">
+                  {formData.message.trim().length < MIN_MESSAGE_LENGTH
+                    ? `${formData.message.trim().length} / ${MIN_MESSAGE_LENGTH} caractères minimum`
+                    : "✓ Parfait"}
+                </p>
               </div>
 
-              <Button 
-                type="submit" 
-                variant="hero" 
-                size="xl" 
+              <Button
+                type="submit"
+                variant="hero"
+                size="xl"
                 className="w-full"
                 disabled={isSubmitting}
               >
@@ -311,12 +288,12 @@ const ContactSection = () => {
                 ) : (
                   <>
                     Recevoir mon devis gratuit
-                    <Send className="w-5 h-5" />
+                    <Send />
                   </>
                 )}
               </Button>
 
-              <p className="text-sm text-muted-foreground mt-4 text-center">
+              <p className="mt-4 text-center text-sm text-muted-foreground">
                 ✓ Réponse garantie sous 24h &nbsp; ✓ Devis gratuit et sans engagement
               </p>
             </form>
