@@ -1,157 +1,142 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "./ui/button";
-import { ArrowRight, Phone, Paintbrush } from "lucide-react";
+import { ArrowRight, Phone } from "lucide-react";
 import heroPainting from "@/assets/hero-painting.jpg";
+import CountUp from "./CountUp";
+import { useRef } from "react";
+
+const stats = [
+  { value: "6+", label: "Années d'expérience" },
+  { value: "500+", label: "Chantiers réalisés" },
+  { value: "100%", label: "Clients satisfaits" },
+  { value: "24h", label: "Délai de réponse" },
+];
+
+const titleWords = ["Donnez", "vie", "à", "vos"];
+
+const ease = [0.22, 1, 0.36, 1] as const;
 
 const HeroSection = () => {
+  const imageRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: imageRef, offset: ["start end", "end start"] });
+  const imageY = useTransform(scrollYProgress, [0, 1], ["-6%", "6%"]);
+
   return (
-    <section id="accueil" className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background Image with Overlay */}
-      <div className="absolute inset-0">
-        <img 
-          src={heroPainting} 
-          alt="Peintre professionnel au travail" 
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/80 to-primary/40" />
-      </div>
-      
-      {/* Decorative paint brush strokes */}
-      <div className="absolute top-1/4 right-0 w-96 h-96 opacity-20">
-        <svg viewBox="0 0 200 200" className="w-full h-full">
-          <path 
-            d="M20,100 Q60,20 100,100 T180,100" 
-            stroke="hsl(var(--accent))" 
-            strokeWidth="8" 
-            fill="none"
-            strokeLinecap="round"
-          />
-          <path 
-            d="M20,140 Q60,60 100,140 T180,140" 
-            stroke="hsl(var(--energy))" 
-            strokeWidth="6" 
-            fill="none"
-            strokeLinecap="round"
-          />
-        </svg>
-      </div>
-
-      <div className="container relative z-10 pt-32 pb-20">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
+    <section id="accueil" className="pt-28 md:pt-36">
+      <div className="container">
+        <div className="grid items-end gap-10 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-7">
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               transition={{ duration: 0.6 }}
-              className="flex items-center gap-3 mb-6"
+              className="eyebrow mb-6"
             >
-              <div className="w-12 h-12 rounded-xl bg-energy flex items-center justify-center">
-                <Paintbrush className="w-6 h-6 text-energy-foreground" />
-              </div>
-              <span className="text-lg font-medium text-white/90">
-                Peinture & Rénovation
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60 motion-reduce:hidden" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
               </span>
-            </motion.div>
+              Peinture & Rénovation
+            </motion.span>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-white leading-tight mb-6"
+            <h1
+              aria-label="Donnez vie à vos murs"
+              className="isolate text-[clamp(2.75rem,8vw,6.5rem)] font-semibold leading-[0.95] tracking-[-0.04em]"
             >
-              Donnez vie à vos{" "}
-              <span className="relative">
-                <span className="text-energy">murs</span>
-                <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 12" preserveAspectRatio="none">
-                  <path d="M0,8 Q50,0 100,8 T200,8" stroke="hsl(var(--accent))" strokeWidth="4" fill="none" strokeLinecap="round"/>
-                </svg>
+              {titleWords.map((word, i) => (
+                <span key={word} aria-hidden className="mr-[0.22em] inline-block overflow-hidden pb-[0.08em] align-bottom">
+                  <motion.span
+                    className="inline-block"
+                    initial={{ y: "110%" }}
+                    animate={{ y: 0 }}
+                    transition={{ duration: 0.9, delay: 0.1 + i * 0.07, ease }}
+                  >
+                    {word}
+                  </motion.span>
+                </span>
+              ))}
+              <span aria-hidden className="relative inline-block whitespace-nowrap">
+                <motion.span
+                  className="absolute -inset-x-[0.06em] bottom-[0.14em] -z-10 h-[0.42em] origin-left -skew-x-6 rounded-[2px] bg-accent"
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ duration: 0.7, delay: 0.75, ease }}
+                />
+                <span className="inline-block overflow-hidden pb-[0.08em] align-bottom">
+                  <motion.span
+                    className="inline-block"
+                    initial={{ y: "110%" }}
+                    animate={{ y: 0 }}
+                    transition={{ duration: 0.9, delay: 0.1 + titleWords.length * 0.07, ease }}
+                  >
+                    murs
+                  </motion.span>
+                </span>
               </span>
-            </motion.h1>
+            </h1>
+          </div>
 
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-lg sm:text-xl text-white/80 mb-10 max-w-xl leading-relaxed"
-            >
-              Spécialistes en <strong className="text-white">peinture intérieure et extérieure</strong>, 
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.45, ease }}
+            className="lg:col-span-5 lg:pb-3"
+          >
+            <p className="mb-8 max-w-md text-lg leading-relaxed text-muted-foreground">
+              Spécialistes en <strong className="font-medium text-foreground">peinture intérieure et extérieure</strong>,
               nous transformons vos espaces avec des finitions impeccables et un savoir-faire artisanal suisse.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex flex-col sm:flex-row gap-4"
-            >
+            </p>
+            <div className="flex flex-col gap-3 sm:flex-row">
               <Button variant="hero" size="xl" asChild>
                 <a href="#contact" className="group">
                   Devis gratuit en 24h
-                  <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="transition-transform group-hover:translate-x-1" />
                 </a>
               </Button>
               <Button variant="heroOutline" size="xl" asChild>
-                <a href="tel:+41797206788">
-                  <Phone className="w-5 h-5" />
+                <a href="tel:+41797206788" className="group">
+                  <Phone className="transition-transform group-hover:-rotate-12" />
                   Appel direct
                 </a>
               </Button>
-            </motion.div>
-          </div>
-
-          {/* Stats cards */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="hidden lg:grid grid-cols-2 gap-4"
-          >
-            <div className="glass-effect-dark rounded-2xl p-6 text-white">
-              <div className="text-4xl font-display font-bold text-energy mb-2">6+</div>
-              <div className="text-white/90">Années d'expérience</div>
-            </div>
-            <div className="glass-effect-dark rounded-2xl p-6 text-white mt-8">
-              <div className="text-4xl font-display font-bold text-accent mb-2">500+</div>
-              <div className="text-white/90">Chantiers réalisés</div>
-            </div>
-            <div className="glass-effect-dark rounded-2xl p-6 text-white">
-              <div className="text-4xl font-display font-bold text-white mb-2">100%</div>
-              <div className="text-white/90">Clients satisfaits</div>
-            </div>
-            <div className="glass-effect-dark rounded-2xl p-6 text-white mt-8">
-              <div className="text-4xl font-display font-bold text-energy mb-2">24h</div>
-              <div className="text-white/90">Délai de réponse</div>
             </div>
           </motion.div>
         </div>
 
-        {/* Mobile stats */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-12 lg:hidden flex flex-wrap gap-6 text-white"
+          ref={imageRef}
+          initial={{ clipPath: "inset(10% 4% 0% 4% round 8px)", opacity: 0 }}
+          animate={{ clipPath: "inset(0% 0% 0% 0% round 8px)", opacity: 1 }}
+          transition={{ duration: 1.2, delay: 0.3, ease }}
+          className="mt-12 overflow-hidden rounded-lg md:mt-16"
         >
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center">
-              <span className="text-xl font-bold text-energy">6+</span>
-            </div>
-            <span className="text-sm text-white/70">Années<br/>d'expérience</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center">
-              <span className="text-xl font-bold text-accent">500+</span>
-            </div>
-            <span className="text-sm text-white/70">Chantiers<br/>réalisés</span>
-          </div>
+          <motion.img
+            src={heroPainting}
+            alt="Peintre professionnel au travail"
+            style={{ y: imageY }}
+            className="aspect-[4/3] w-full scale-[1.12] object-cover object-[70%_50%] sm:aspect-[21/9]"
+          />
         </motion.div>
-      </div>
 
-      {/* Bottom wave */}
-      <div className="absolute bottom-0 left-0 right-0">
-        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-          <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="hsl(var(--background))"/>
-        </svg>
+        <dl className="grid grid-cols-2 border-b border-border md:grid-cols-4">
+          {stats.map((stat, i) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 * i, ease }}
+              className={`flex flex-col-reverse border-border py-8 ${i % 2 ? "border-l pl-6" : "pr-6"} ${
+                i > 0 ? "md:border-l md:pl-8" : ""
+              } ${i > 1 ? "border-t md:border-t-0" : ""}`}
+            >
+              <dt className="mt-2 text-sm text-muted-foreground">{stat.label}</dt>
+              <dd className="text-4xl font-semibold tracking-tight md:text-5xl">
+                <CountUp value={stat.value} />
+              </dd>
+            </motion.div>
+          ))}
+        </dl>
       </div>
     </section>
   );

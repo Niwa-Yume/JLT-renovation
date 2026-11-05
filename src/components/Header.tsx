@@ -1,106 +1,149 @@
-import { motion } from "framer-motion";
-import logoJLT from "@/assets/logo-jlt.jpeg";
-import { Phone, Mail, Menu, X } from "lucide-react";
+import { motion, useScroll, useSpring } from "framer-motion";
+import { Phone, Mail, Menu, X, ArrowRight } from "lucide-react";
 import { Button } from "./ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Logo from "./Logo";
+import { cn } from "@/lib/utils";
+
+const navItems = [
+  { label: "Accueil", href: "#accueil" },
+  { label: "Services", href: "#services" },
+  { label: "À propos", href: "#apropos" },
+  { label: "Contact", href: "#contact" },
+];
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [active, setActive] = useState(navItems[0].href);
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, { stiffness: 200, damping: 40 });
 
-  const navItems = [
-    { label: "Accueil", href: "#accueil" },
-    { label: "Services", href: "#services" },
-    { label: "À propos", href: "#apropos" },
-    { label: "Contact", href: "#contact" },
-  ];
+  // Section active : celle qui traverse le milieu de l'écran.
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && setActive(`#${e.target.id}`)),
+      { rootMargin: "-45% 0px -50% 0px" },
+    );
+    // #realisations n'est pas dans le menu : l'observer pour ne souligner aucun lien quand on y est.
+    [...navItems.map((i) => i.href), "#realisations"].forEach((href) => {
+      const el = document.querySelector(href);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <motion.header 
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className="fixed top-0 left-0 right-0 z-50 glass-effect"
+    <header
+      className={cn(
+        "fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300",
+        scrolled || mobileMenuOpen
+          ? "border-border bg-background"
+          : "border-transparent bg-transparent",
+      )}
     >
-      {/* Top bar with contact info */}
-      <div className="bg-primary text-primary-foreground py-2">
-        <div className="container flex justify-center md:justify-end gap-6 text-sm">
-          <a href="tel:+41797206788" className="flex items-center gap-2 hover:text-energy transition-colors">
-            <Phone className="w-4 h-4" />
-            <span className="hidden sm:inline">079 720 67 88</span>
+      <div className="container flex h-16 items-center justify-between gap-6 md:h-20">
+        <a href="#accueil" className="shrink-0" aria-label="JLT Rénovation — accueil">
+          <Logo className="h-11 md:h-14" />
+        </a>
+
+        <nav className="hidden items-center gap-8 md:flex">
+          {navItems.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              aria-current={active === item.href ? "location" : undefined}
+              className={cn(
+                "relative py-1 text-sm transition-colors hover:text-foreground",
+                active === item.href ? "text-foreground" : "text-foreground/60",
+              )}
+            >
+              {item.label}
+              {active === item.href && (
+                <motion.span
+                  layoutId="nav-underline"
+                  className="absolute inset-x-0 -bottom-0.5 h-0.5 rounded-full bg-accent"
+                  transition={{ type: "spring", stiffness: 400, damping: 35 }}
+                />
+              )}
+            </a>
+          ))}
+        </nav>
+
+        <div className="hidden items-center gap-5 md:flex">
+          <a
+            href="tel:+41797206788"
+            className="flex items-center gap-2 font-mono text-sm text-foreground/70 transition-colors hover:text-foreground"
+          >
+            <Phone className="h-4 w-4" />
+            079 720 67 88
           </a>
-          <a href="mailto:contact@jlt-renovation.ch" className="flex items-center gap-2 hover:text-energy transition-colors">
-            <Mail className="w-4 h-4" />
-            <span className="hidden sm:inline">contact@jlt-renovation.ch</span>
-          </a>
+          <Button variant="default" size="lg" asChild>
+            <a href="#contact" className="group">
+              Devis Gratuit
+              <ArrowRight className="transition-transform group-hover:translate-x-0.5" />
+            </a>
+          </Button>
         </div>
+
+        <button
+          className="-mr-2 p-2 md:hidden"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label={mobileMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+          aria-expanded={mobileMenuOpen}
+        >
+          {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </button>
       </div>
 
-      {/* Main navigation */}
-      <div className="container py-4">
-        <div className="flex items-center justify-between">
-          <a href="#accueil" className="flex items-center gap-3">
-            <img 
-              src={logoJLT} 
-              alt="JLT Rénovation" 
-              className="h-14 md:h-20 w-auto object-contain rounded-full transition-all duration-300"
-            />
-          </a>
+      <motion.div
+        aria-hidden
+        style={{ scaleX: progress }}
+        className={cn(
+          "absolute inset-x-0 -bottom-px h-0.5 origin-left bg-accent transition-opacity",
+          scrolled ? "opacity-100" : "opacity-0",
+        )}
+      />
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
+      {mobileMenuOpen && (
+        <motion.nav
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="container pb-6 md:hidden"
+        >
+          <div className="flex flex-col divide-y divide-border border-y border-border">
             {navItems.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
-                className="text-foreground/80 hover:text-primary font-medium transition-colors relative group"
+                onClick={() => setMobileMenuOpen(false)}
+                className="py-4 text-lg font-medium"
               >
                 {item.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full" />
               </a>
             ))}
-          </nav>
-
-          <div className="hidden md:block">
-            <Button variant="hero" size="lg" asChild>
-              <a href="#contact">Devis Gratuit</a>
-            </Button>
           </div>
-
-          {/* Mobile menu button */}
-          <button 
-            className="md:hidden p-2"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </div>
-
-        {/* Mobile Navigation */}
-        {mobileMenuOpen && (
-          <motion.nav 
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            className="md:hidden pt-4 pb-2"
-          >
-            <div className="flex flex-col gap-4">
-              {navItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-foreground/80 hover:text-primary font-medium transition-colors py-2"
-                >
-                  {item.label}
-                </a>
-              ))}
-              <Button variant="hero" size="lg" asChild>
-                <a href="#contact" onClick={() => setMobileMenuOpen(false)}>Devis Gratuit</a>
-              </Button>
-            </div>
-          </motion.nav>
-        )}
-      </div>
-    </motion.header>
+          <div className="mt-6 flex flex-col gap-3 font-mono text-sm text-muted-foreground">
+            <a href="tel:+41797206788" className="flex items-center gap-2">
+              <Phone className="h-4 w-4" /> 079 720 67 88
+            </a>
+            <a href="mailto:contact@jlt-renovation.ch" className="flex items-center gap-2">
+              <Mail className="h-4 w-4" /> contact@jlt-renovation.ch
+            </a>
+          </div>
+          <Button variant="default" size="xl" className="mt-6 w-full" asChild>
+            <a href="#contact" onClick={() => setMobileMenuOpen(false)}>Devis Gratuit</a>
+          </Button>
+        </motion.nav>
+      )}
+    </header>
   );
 };
 

@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
-import { CheckCircle, Award, Shield, Clock } from "lucide-react";
-import logoJLT from "@/assets/logo-jlt.jpeg";
+import { CheckCircle, Award, Shield, Clock, Check, Star } from "lucide-react";
+import Logo from "./Logo";
+import { reveal } from "@/lib/motion";
 
 const features = [
   { icon: Award, text: "Artisans qualifiés et diplômé" },
@@ -80,145 +81,120 @@ const googleReviews: GoogleReview[] = [
 
 const AboutSection = () => {
   return (
-    <section id="apropos" className="py-24 bg-background">
+    <section id="apropos" className="py-24 md:py-32">
       <div className="container">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="inline-block px-4 py-2 rounded-full bg-accent/10 text-accent text-sm font-medium mb-4">
-              Pourquoi JLT Rénovation ?
-            </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-foreground mb-6">
-              L'expertise d'un <span className="text-primary">artisan local</span>
+        <div className="grid gap-16 lg:grid-cols-12 lg:gap-12">
+          <motion.div {...reveal} className="lg:col-span-6">
+            <span className="eyebrow mb-6">03 — Pourquoi JLT Rénovation ?</span>
+            <h2 className="mb-6 text-4xl font-semibold leading-[1.05] sm:text-5xl">
+              L'expertise d'un <span className="text-muted-foreground">artisan local</span>
             </h2>
-            <p className="text-muted-foreground text-lg mb-8 leading-relaxed">
+            <p className="mb-12 max-w-lg text-lg leading-relaxed text-muted-foreground">
               Depuis plus de 6 ans, JLT Rénovation accompagne les particuliers et professionnels
-              en Suisse romande. Notre passion pour le métier de peintre se reflète dans chaque 
+              en Suisse romande. Notre passion pour le métier de peintre se reflète dans chaque
               coup de pinceau.
             </p>
 
-            {/* Feature cards */}
-            <div className="grid sm:grid-cols-2 gap-4 mb-8">
+            <div className="mb-12 grid grid-cols-2 border-t border-border">
               {features.map((feature, index) => (
-                <motion.div
+                <div
                   key={feature.text}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className="flex items-center gap-3 p-4 rounded-xl bg-secondary/50"
+                  className={`border-b border-border py-6 ${index % 2 ? "border-l pl-6" : "pr-6"}`}
                 >
-                  <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
-                    <feature.icon className="w-5 h-5 text-accent" />
-                  </div>
-                  <span className="text-sm font-medium text-foreground">{feature.text}</span>
-                </motion.div>
+                  <feature.icon className="mb-4 h-5 w-5 text-accent" strokeWidth={1.75} />
+                  <span className="text-sm font-medium leading-snug">{feature.text}</span>
+                </div>
               ))}
             </div>
 
-            <div className="space-y-3">
-              {whyUs.map((item, index) => (
-                <motion.div
-                  key={item}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: 0.4 + index * 0.05 }}
-                  className="flex items-center gap-3"
-                >
-                  <CheckCircle className="w-5 h-5 text-energy flex-shrink-0" />
-                  <span className="text-foreground">{item}</span>
-                </motion.div>
+            <ul className="grid gap-x-8 gap-y-3 sm:grid-cols-2">
+              {whyUs.map((item) => (
+                <li key={item} className="flex items-start gap-3 text-sm">
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" strokeWidth={2.5} />
+                  {item}
+                </li>
               ))}
-            </div>
+            </ul>
+
+            <p className="mt-12 flex items-center gap-3 font-mono text-sm uppercase tracking-wider">
+              <span className="text-lg" aria-hidden>🇨🇭</span>
+              Genève • Lausanne
+            </p>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative"
+            {...reveal}
+            transition={{ ...reveal.transition, delay: 0.15 }}
+            className="lg:col-span-5 lg:col-start-8"
           >
-            {/* Main card with logo */}
-            <div className="relative rounded-3xl overflow-hidden shadow-strong bg-gradient-to-br from-primary to-primary/80 p-12">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-accent/10 rounded-full blur-3xl" />
-              <div className="absolute bottom-0 left-0 w-48 h-48 bg-energy/10 rounded-full blur-3xl" />
-              
-              <div className="relative text-center">
-                <img 
-                  src={logoJLT} 
-                  alt="JLT Rénovation" 
-                  className="w-48 h-auto mx-auto mb-8 rounded-2xl shadow-lg bg-white p-4"
-                />
-                <div className="text-white">
-                  <p className="text-lg font-semibold">Avis clients Google</p>
-                  <p className="text-base font-semibold mt-2">{googleBusinessProfile.name}</p>
-                  <p className="text-xs opacity-80 mt-1">{googleBusinessProfile.address}</p>
+            <div className="overflow-hidden rounded-lg border border-border bg-card">
+              <div className="border-b border-border p-6">
+                <div className="mb-5 flex items-center justify-between gap-4">
+                  <span className="eyebrow">Avis clients Google</span>
+                  <Logo className="h-9 bg-card" />
+                </div>
+                <p className="font-semibold">{googleBusinessProfile.name}</p>
+                <p className="mt-1 text-xs text-muted-foreground">{googleBusinessProfile.address}</p>
 
-                  <div className="flex items-center gap-2 mt-3 text-sm">
-                    <span className="font-semibold">{googleBusinessProfile.rating}</span>
-                    <span className="opacity-90">{googleBusinessProfile.totalReviews}</span>
+                <div className="mt-5 flex items-end gap-3">
+                  <span className="text-5xl font-semibold leading-none tracking-tight">{googleBusinessProfile.rating}</span>
+                  <div className="pb-1">
+                    <div className="flex gap-0.5" aria-hidden>
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <Star key={i} className="h-4 w-4 fill-accent text-accent" />
+                      ))}
+                    </div>
+                    <span className="text-xs text-muted-foreground">{googleBusinessProfile.totalReviews}</span>
                   </div>
+                </div>
 
-                  <div className="flex flex-wrap gap-2 mt-3">
-                    {googleBusinessProfile.filters.map((filter) => (
-                      <span key={filter} className="text-xs rounded-full bg-white/15 px-3 py-1">
-                        {filter}
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {googleBusinessProfile.filters.map((filter, i) => (
+                    <span
+                      key={filter}
+                      className={`rounded-full px-3 py-1 text-xs ${
+                        i === 0 ? "bg-foreground text-background" : "border border-border text-muted-foreground"
+                      }`}
+                    >
+                      {filter}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="mt-4">
+                  <p className="mb-2 text-xs text-muted-foreground">Trier par</p>
+                  <div className="flex flex-wrap gap-2">
+                    {googleBusinessProfile.sortOptions.map((option) => (
+                      <span key={option} className="rounded-full border border-border px-3 py-1 text-xs text-muted-foreground">
+                        {option}
                       </span>
                     ))}
                   </div>
+                </div>
+              </div>
 
-                  <div className="mt-4 mb-3">
-                    <p className="text-xs opacity-80 mb-2">Trier par</p>
-                    <div className="flex flex-wrap gap-2">
-                      {googleBusinessProfile.sortOptions.map((option) => (
-                        <span key={option} className="text-xs rounded-full border border-white/20 px-3 py-1">
-                          {option}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="space-y-4 text-left mt-4 max-h-80 overflow-y-auto pr-1">
-                    {googleReviews.map((review) => (
-                      <div key={`${review.author}-${review.relativeTime}`} className="rounded-xl bg-white/10 p-4">
-                        <div className="flex items-center justify-between mb-2 gap-3">
-                          <p className="font-semibold">{review.author}</p>
-                          <p className="text-xs opacity-80 whitespace-nowrap">{review.relativeTime}</p>
-                        </div>
-                        <p className="text-sm mb-2">{"★".repeat(Math.max(1, Math.min(5, Math.round(review.rating))))}</p>
-                        <p className="text-sm opacity-90 line-clamp-5">
-                          {review.text || "Avis publie sans commentaire."}
-                        </p>
+              <ul className="max-h-[26rem] divide-y divide-border overflow-y-auto">
+                {googleReviews.map((review) => (
+                  <li key={`${review.author}-${review.relativeTime}`} className="p-6">
+                    <div className="mb-2 flex items-center gap-3">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-secondary text-xs font-semibold uppercase">
+                        {review.author.charAt(0)}
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-sm font-semibold">{review.author}</p>
+                        <p className="text-xs text-muted-foreground">{review.relativeTime}</p>
                       </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
+                      <span className="text-sm tracking-tight text-accent" aria-label={`${review.rating} sur 5`}>
+                        {"★".repeat(Math.max(1, Math.min(5, Math.round(review.rating))))}
+                      </span>
+                    </div>
+                    <p className={`line-clamp-5 text-sm leading-relaxed ${review.text ? "text-foreground/80" : "italic text-muted-foreground"}`}>
+                      {review.text || "Avis publie sans commentaire."}
+                    </p>
+                  </li>
+                ))}
+              </ul>
             </div>
-
-            {/* Floating badge */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              className="absolute -bottom-6 -left-6 bg-card rounded-2xl p-5 shadow-medium border border-border/50"
-            >
-              <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-full bg-energy/20 flex items-center justify-center">
-                  <span className="text-3xl">🇨🇭</span>
-                </div>
-                <div>
-                  <div className="text-lg font-bold text-foreground">Genève • Lausanne</div>
-                </div>
-              </div>
-            </motion.div>
           </motion.div>
         </div>
       </div>
